@@ -4,19 +4,20 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f7f7f5">
+  <meta name="description" content="Cerita proses dan hasil sebuah proyek upcycle sederhana.">
   <title>Can Upcycle — Process &amp; Showcase</title>
   <style>
     :root {
       color-scheme: light;
       --paper: #f7f7f5;
-      --surface: #fff;
       --ink: #141414;
-      --muted: #777972;
+      --muted: #777872;
       --line: rgba(20, 20, 20, .09);
-      --olive: #3a5a40;
-      --olive-soft: #e9eee8;
-      --serif: Georgia, "Times New Roman", serif;
+      --sage: #3a5a40;
+      --sage-soft: #e8ede7;
+      --card: #fff;
       --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      --sans: Inter, "Avenir Next", Avenir, "Segoe UI", sans-serif;
     }
 
     * { box-sizing: border-box; }
@@ -27,76 +28,77 @@
       margin: 0;
       background: var(--paper);
       color: var(--ink);
-      font-family: Inter, "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: var(--sans);
       -webkit-font-smoothing: antialiased;
     }
 
     button, a { font: inherit; }
     button { color: inherit; }
 
-    .page-shell {
-      width: min(1120px, calc(100% - 64px));
+    .shell {
+      width: min(1120px, calc(100% - 48px));
       margin: 0 auto;
     }
 
-    .site-header {
-      min-height: 78px;
+    .topbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      min-height: 76px;
       border-bottom: 1px solid var(--line);
     }
 
     .wordmark {
-      display: inline-flex;
+      display: flex;
       align-items: center;
       gap: 10px;
       color: var(--ink);
-      text-decoration: none;
       font-size: 13px;
       font-weight: 650;
       letter-spacing: -.025em;
+      text-decoration: none;
     }
 
-    .wordmark-mark {
+    .mark {
       display: grid;
-      width: 25px;
-      height: 25px;
+      width: 27px;
+      height: 27px;
       place-items: center;
-      border: 1px solid rgba(58, 90, 64, .25);
-      border-radius: 8px;
-      color: var(--olive);
-      font-family: var(--serif);
-      font-size: 17px;
-      line-height: 1;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      color: var(--sage);
+      font-size: 15px;
     }
 
-    .header-note, .eyebrow, .card-index, .duration, .time-readout, .footer-note {
+    .top-note, .eyebrow, .index, .duration, .time-readout {
       font-family: var(--mono);
       font-size: 11px;
+      font-weight: 400;
       letter-spacing: .035em;
+      font-variant-numeric: tabular-nums;
     }
 
-    .header-note { color: var(--muted); }
+    .top-note { color: var(--muted); }
 
     .intro {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 250px;
+      grid-template-columns: minmax(0, 1fr) 260px;
+      gap: 40px;
       align-items: end;
-      gap: 60px;
-      padding: 78px 0 56px;
+      padding: 82px 0 42px;
     }
 
     .eyebrow {
       display: inline-flex;
       align-items: center;
       gap: 9px;
-      color: var(--olive);
+      margin: 0 0 20px;
+      color: var(--sage);
       text-transform: uppercase;
     }
 
     .eyebrow::before {
-      width: 18px;
+      width: 20px;
       height: 1px;
       background: currentColor;
       content: "";
@@ -104,384 +106,417 @@
 
     h1 {
       max-width: 700px;
-      margin: 20px 0 16px;
-      font-family: var(--serif);
-      font-size: clamp(44px, 6vw, 72px);
-      font-weight: 400;
-      letter-spacing: -.065em;
-      line-height: .99;
+      margin: 0;
+      font-size: clamp(42px, 6.3vw, 76px);
+      font-weight: 520;
+      letter-spacing: -.075em;
+      line-height: .98;
     }
 
-    .intro-copy {
-      max-width: 510px;
-      margin: 0;
-      color: #656660;
-      font-size: 15px;
+    h1 span {
+      color: #777872;
+      font-weight: 400;
+    }
+
+    .intro-aside {
+      padding-bottom: 5px;
+    }
+
+    .intro-aside p {
+      margin: 0 0 23px;
+      color: #63645e;
+      font-size: 14px;
       line-height: 1.75;
     }
 
-    .jump-nav {
-      display: grid;
-      gap: 10px;
-      padding-bottom: 4px;
+    .jump-links {
+      display: flex;
+      gap: 8px;
     }
 
-    .jump-link {
+    .jump-links a {
+      padding: 9px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--ink);
+      font-size: 11px;
+      text-decoration: none;
+      transition: border-color .2s ease, background .2s ease;
+    }
+
+    .jump-links a:hover {
+      border-color: rgba(58, 90, 64, .35);
+      background: var(--sage-soft);
+    }
+
+    .section-heading {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 14px;
-      padding: 12px 0;
-      border-bottom: 1px solid var(--line);
-      color: var(--ink);
-      font-size: 12px;
-      text-decoration: none;
-      transition: color .2s ease;
+      margin: 16px 0 18px;
+      padding-top: 21px;
+      border-top: 1px solid var(--line);
     }
 
-    .jump-link:hover { color: var(--olive); }
-    .jump-number { color: var(--muted); font-family: var(--mono); font-size: 10px; }
+    .section-heading h2 {
+      margin: 0;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: -.015em;
+    }
 
-    .showcase {
+    .section-heading span {
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 10px;
+    }
+
+    .video-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 22px;
-      padding-bottom: 72px;
+      gap: 18px;
+      padding-bottom: 78px;
     }
 
     .video-card {
-      min-width: 0;
-      padding: 12px;
+      overflow: hidden;
       border: 1px solid var(--line);
       border-radius: 18px;
-      background: var(--surface);
+      background: var(--card);
     }
 
     .media-frame {
       position: relative;
       overflow: hidden;
-      aspect-ratio: 1.43;
-      border-radius: 11px;
-      background: #e9e9e4;
+      aspect-ratio: 16 / 10;
+      background: #e8e7e1;
     }
 
     .media-frame video {
       display: block;
       width: 100%;
       height: 100%;
+      background: #e8e7e1;
       object-fit: cover;
       cursor: pointer;
     }
 
-    .media-corner {
-      position: absolute;
-      z-index: 1;
-      top: 12px;
-      left: 12px;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      padding: 7px 9px;
-      border: 1px solid rgba(20, 20, 20, .07);
-      border-radius: 7px;
-      background: rgba(247, 247, 245, .88);
-      color: var(--ink);
-      backdrop-filter: blur(8px);
+    .media-frame video:focus-visible {
+      outline: 2px solid var(--sage);
+      outline-offset: -3px;
     }
 
-    .card-index { color: var(--olive); }
-    .duration { color: var(--muted); }
-
-    .error-message {
+    .media-fallback {
       position: absolute;
       inset: 0;
-      display: grid;
-      align-content: center;
-      justify-items: center;
-      gap: 9px;
-      padding: 24px;
-      background: #ecece7;
-      color: #585a54;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 28px;
+      background: #eeeee9;
+      color: #686a62;
       text-align: center;
     }
 
-    .error-message[hidden] { display: none; }
-    .error-message strong { color: var(--ink); font-size: 13px; font-weight: 550; }
-    .error-message span { max-width: 290px; font-size: 11px; line-height: 1.6; }
+    .media-fallback.is-visible { display: flex; }
 
-    .card-content { padding: 18px 5px 5px; }
-
-    .card-heading {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 14px;
-    }
-
-    h2 {
+    .media-fallback p {
+      max-width: 300px;
       margin: 0;
-      font-family: var(--serif);
-      font-size: 25px;
-      font-weight: 400;
-      letter-spacing: -.04em;
+      font-size: 13px;
+      line-height: 1.7;
     }
 
-    .status {
-      flex: 0 0 auto;
-      display: inline-flex;
+    .media-fallback strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .media-label {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      display: flex;
       align-items: center;
-      gap: 6px;
-      color: var(--muted);
+      gap: 7px;
+      padding: 7px 10px;
+      border: 1px solid rgba(255,255,255,.55);
+      border-radius: 999px;
+      background: rgba(247,247,245,.86);
+      color: var(--ink);
+      font-family: var(--mono);
+      font-size: 10px;
+      backdrop-filter: blur(10px);
+    }
+
+    .label-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--sage);
+    }
+
+    .card-content { padding: 20px 20px 16px; }
+
+    .card-kicker {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 11px;
+    }
+
+    .index { color: var(--sage); }
+
+    .duration { color: var(--muted); }
+
+    .card-content h3 {
+      margin: 0;
+      font-size: 21px;
+      font-weight: 550;
+      letter-spacing: -.045em;
+    }
+
+    .description {
+      min-height: 44px;
+      margin: 8px 0 20px;
+      color: #70716b;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .control-panel {
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+    }
+
+    .seek-row {
+      display: grid;
+      grid-template-columns: 35px minmax(0, 1fr) 35px;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 12px;
+    }
+
+    .time-readout {
+      color: #70716b;
       font-size: 10px;
     }
 
-    .status::before {
-      width: 5px;
-      height: 5px;
+    input[type="range"] {
+      width: 100%;
+      height: 3px;
+      margin: 0;
+      border-radius: 99px;
+      appearance: none;
+      background: linear-gradient(to right, var(--sage) 0%, var(--sage) var(--progress, 0%), #e7e7e2 var(--progress, 0%), #e7e7e2 100%);
+      cursor: pointer;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      width: 11px;
+      height: 11px;
+      border: 2px solid var(--card);
       border-radius: 50%;
-      background: #aaa;
-      content: "";
+      appearance: none;
+      background: var(--sage);
+      box-shadow: 0 0 0 1px var(--sage);
     }
 
-    .status.is-playing { color: var(--olive); }
-    .status.is-playing::before { background: #6b8c6b; }
-
-    .card-description {
-      min-height: 42px;
-      margin: 8px 0 17px;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.65;
+    input[type="range"]::-moz-range-thumb {
+      width: 8px;
+      height: 8px;
+      border: 2px solid var(--card);
+      border-radius: 50%;
+      background: var(--sage);
+      box-shadow: 0 0 0 1px var(--sage);
     }
 
-    .player-controls {
-      display: grid;
-      grid-template-columns: auto minmax(55px, 1fr) auto auto;
+    .control-actions {
+      display: flex;
       align-items: center;
-      gap: 9px;
+      justify-content: space-between;
+      gap: 8px;
     }
 
-    .control-play, .expand-button, .icon-button, .fullscreen-button {
+    .left-actions { display: flex; align-items: center; gap: 9px; }
+
+    .play-button, .expand-button, .modal-close, .fullscreen-button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       border: 1px solid var(--line);
       background: transparent;
       cursor: pointer;
-      transition: border-color .2s ease, background .2s ease, color .2s ease;
+      transition: background .2s ease, border-color .2s ease, transform .2s ease;
     }
 
-    .control-play {
-      width: 35px;
-      height: 35px;
+    .play-button:hover, .expand-button:hover, .modal-close:hover, .fullscreen-button:hover {
+      border-color: rgba(58, 90, 64, .3);
+      background: var(--sage-soft);
+    }
+
+    .play-button:active, .expand-button:active { transform: scale(.98); }
+
+    .play-button {
+      width: 34px;
+      height: 34px;
+      border-color: var(--sage);
       border-radius: 50%;
+      background: var(--sage);
+      color: #fff;
+      font-size: 12px;
     }
 
-    .control-play:hover, .expand-button:hover, .icon-button:hover, .fullscreen-button:hover {
-      border-color: rgba(58, 90, 64, .35);
-      background: var(--olive-soft);
-      color: var(--olive);
+    .play-button:hover { background: #2f4c35; color: #fff; }
+
+    .status {
+      color: #777872;
+      font-size: 11px;
     }
 
-    .control-play svg { width: 13px; height: 13px; fill: currentColor; }
-    .icon-pause { display: none; }
-    .control-play[aria-pressed="true"] .icon-play { display: none; }
-    .control-play[aria-pressed="true"] .icon-pause { display: block; }
+    .expand-button, .fullscreen-button {
+      gap: 7px;
+      min-height: 34px;
+      padding: 0 11px;
+      border-radius: 999px;
+      font-size: 11px;
+    }
 
-    .volume-controls {
-      display: inline-flex;
+    .expand-icon {
+      font-size: 14px;
+      line-height: 1;
+    }
+
+    .footer {
+      display: flex;
       align-items: center;
-      gap: 5px;
+      justify-content: space-between;
+      padding: 19px 0 27px;
+      border-top: 1px solid var(--line);
+      color: #777872;
+      font-size: 11px;
     }
 
-    .volume-toggle {
-      display: inline-flex;
-      width: 28px;
-      height: 30px;
+    .footer p { margin: 0; }
+    .footer .footer-mark { color: var(--sage); font-family: var(--mono); }
+
+    .lightbox {
+      position: fixed;
+      z-index: 20;
+      inset: 0;
+      display: none;
       align-items: center;
       justify-content: center;
-      padding: 0;
-      border: 0;
-      border-radius: 6px;
-      background: transparent;
-      color: var(--muted);
-      cursor: pointer;
+      padding: 32px;
+      background: rgba(13, 15, 13, .78);
+      backdrop-filter: blur(14px);
     }
 
-    .volume-toggle:hover { background: var(--olive-soft); color: var(--olive); }
-    .volume-toggle svg { width: 15px; height: 15px; }
-    .volume-mute { display: none; }
-    .volume-toggle[aria-pressed="true"] .volume-wave { display: none; }
-    .volume-toggle[aria-pressed="true"] .volume-mute { display: block; }
+    .lightbox.is-open { display: flex; }
 
-    .volume-slider {
-      width: 56px;
-      height: 3px;
-      margin: 0;
-      accent-color: var(--olive);
-      cursor: pointer;
+    .lightbox-dialog {
+      width: min(1020px, 100%);
+      max-height: 100%;
+      overflow: auto;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 18px;
+      background: #171917;
+      color: #f7f7f5;
+      box-shadow: 0 24px 80px rgba(0,0,0,.24);
     }
-
-    .seek-wrap { display: grid; gap: 7px; }
-
-    .seek {
-      width: 100%;
-      height: 3px;
-      margin: 0;
-      accent-color: var(--olive);
-      cursor: pointer;
-    }
-
-    .time-readout {
-      display: flex;
-      justify-content: space-between;
-      color: var(--muted);
-      font-size: 9px;
-    }
-
-    .expand-button {
-      min-height: 35px;
-      gap: 7px;
-      padding: 0 10px;
-      border-radius: 8px;
-      font-size: 10px;
-    }
-
-    .expand-button svg { width: 13px; height: 13px; }
-
-    .site-footer {
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      padding: 19px 0 25px;
-      border-top: 1px solid var(--line);
-    }
-
-    .footer-note { color: var(--muted); line-height: 1.6; }
-    .footer-note:last-child { text-align: right; }
-
-    dialog {
-      width: min(1000px, calc(100% - 36px));
-      max-width: none;
-      max-height: calc(100% - 36px);
-      padding: 0;
-      overflow: visible;
-      border: 1px solid rgba(255, 255, 255, .16);
-      border-radius: 16px;
-      background: #111;
-      color: white;
-    }
-
-    dialog::backdrop {
-      background: rgba(15, 16, 14, .78);
-      backdrop-filter: blur(9px);
-    }
-
-    .lightbox { padding: 14px; }
 
     .lightbox-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      padding: 2px 2px 13px;
+      padding: 15px 19px;
     }
 
-    .lightbox-title {
+    .lightbox-heading {
       display: flex;
       align-items: baseline;
-      gap: 11px;
-      min-width: 0;
+      gap: 10px;
     }
 
-    .lightbox-title strong {
-      overflow: hidden;
-      font-family: var(--serif);
-      font-size: 20px;
-      font-weight: 400;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+    .lightbox-heading span {
+      color: #a7b6a8;
+      font-family: var(--mono);
+      font-size: 10px;
     }
 
-    .lightbox-title span { color: #b6b8b2; font-family: var(--mono); font-size: 10px; }
+    .lightbox-heading h2 {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 500;
+    }
 
-    .icon-button, .fullscreen-button {
-      width: 34px;
-      height: 34px;
-      flex: 0 0 auto;
-      border-color: rgba(255, 255, 255, .2);
+    .modal-close {
+      width: 32px;
+      height: 32px;
+      border-color: rgba(255,255,255,.18);
       border-radius: 50%;
-      color: white;
+      color: #fff;
+      font-size: 18px;
+      line-height: 1;
     }
 
-    .icon-button svg, .fullscreen-button svg { width: 15px; height: 15px; }
+    .modal-close:hover { background: rgba(255,255,255,.1); }
 
-    .lightbox-stage {
+    .lightbox-media {
       position: relative;
       overflow: hidden;
       aspect-ratio: 16 / 9;
-      border-radius: 9px;
-      background: #090909;
+      background: #090a09;
     }
 
-    .lightbox-stage video { width: 100%; height: 100%; object-fit: contain; }
-    .lightbox-stage .error-message { background: #22231f; color: #c4c6bf; }
-    .lightbox-stage .error-message strong { color: white; }
+    .lightbox-media video {
+      display: block;
+      width: 100%;
+      height: 100%;
+      background: #090a09;
+      object-fit: contain;
+      cursor: pointer;
+    }
+
+    .lightbox-media .media-fallback {
+      background: #171917;
+      color: #b6b9b2;
+    }
+
+    .lightbox-media .media-fallback strong { color: #fff; }
+    .lightbox-media .play-button { background: #a7b6a8; border-color: #a7b6a8; color: #171917; }
+    .lightbox-media .play-button:hover { background: #c1d0c2; }
+    .lightbox-media .seek-row { grid-template-columns: 35px minmax(0, 1fr) 35px; }
+    .lightbox-media .time-readout, .lightbox-media .status { color: #aaa; }
 
     .lightbox-controls {
-      display: grid;
-      grid-template-columns: auto minmax(50px, 1fr) auto auto auto;
-      align-items: center;
-      gap: 14px;
-      padding: 14px 2px 1px;
+      padding: 15px 19px 17px;
     }
 
-    .lightbox .control-play {
-      border-color: rgba(255, 255, 255, .24);
-      color: white;
-    }
+    .lightbox-controls .control-panel { padding-top: 0; border-top: 0; }
+    .lightbox-controls .control-panel input[type="range"] { background-color: #454845; }
+    .lightbox-controls .control-panel input[type="range"]::-webkit-slider-thumb { border-color: #171917; }
+    .lightbox-controls .control-panel input[type="range"]::-moz-range-thumb { border-color: #171917; }
+    .lightbox-controls .expand-button, .lightbox-controls .fullscreen-button { color: #f7f7f5; border-color: rgba(255,255,255,.18); }
+    .lightbox-controls .expand-button:hover, .lightbox-controls .fullscreen-button:hover { background: rgba(255,255,255,.1); }
+    .lightbox-controls .expand-button { display: none; }
 
-    .lightbox .control-play:hover, .lightbox .fullscreen-button:hover {
-      border-color: rgba(255, 255, 255, .45);
-      background: rgba(255, 255, 255, .1);
-      color: white;
-    }
-
-    .lightbox .volume-toggle { color: #d3d5cf; }
-    .lightbox .volume-toggle:hover { background: rgba(255, 255, 255, .1); color: white; }
-    .lightbox .volume-slider { accent-color: #a7b99f; }
-    .lightbox .time-readout { color: #c4c6bf; }
-    .lightbox .seek { accent-color: #a7b99f; }
-
-    :focus-visible { outline: 2px solid #718a6f; outline-offset: 3px; }
+    :focus-visible { outline: 2px solid #86a48a; outline-offset: 3px; }
 
     @media (max-width: 760px) {
-      .page-shell { width: min(560px, calc(100% - 40px)); }
-      .intro { grid-template-columns: 1fr; gap: 28px; padding: 58px 0 40px; }
-      .jump-nav { grid-template-columns: 1fr 1fr; gap: 18px; }
-      .showcase { grid-template-columns: 1fr; gap: 16px; padding-bottom: 52px; }
-      .card-description { min-height: auto; }
-    }
-
-    @media (max-width: 440px) {
-      .page-shell { width: calc(100% - 32px); }
-      .header-note { font-size: 9px; }
-      .intro { padding-top: 48px; }
-      .video-card { padding: 9px; border-radius: 15px; }
-      .media-frame { aspect-ratio: 1.25; }
-      .card-content { padding: 15px 3px 4px; }
-      h2 { font-size: 22px; }
-      .status { font-size: 9px; }
-      .player-controls { gap: 8px; }
-      .volume-controls { gap: 2px; }
-      .volume-slider { width: 42px; }
-      .expand-button { gap: 5px; padding: 0 8px; }
-      .site-footer { flex-direction: column; gap: 7px; }
-      .footer-note:last-child { text-align: left; }
-      .lightbox { padding: 10px; }
-      .lightbox-controls { gap: 9px; }
-      .lightbox-title strong { font-size: 17px; }
-      .lightbox-title span { font-size: 9px; }
+      .shell { width: min(100% - 32px, 560px); }
+      .topbar { min-height: 64px; }
+      .intro { grid-template-columns: 1fr; gap: 24px; padding: 61px 0 34px; }
+      .intro-aside { max-width: 440px; }
+      .intro-aside p { margin-bottom: 17px; }
+      .video-grid { grid-template-columns: 1fr; gap: 14px; padding-bottom: 58px; }
+      .description { min-height: 0; }
+      .lightbox { padding: 14px; }
+      .lightbox-dialog { border-radius: 14px; }
+      .lightbox-top { padding: 13px 14px; }
+      .lightbox-controls { padding: 13px 14px 15px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -490,63 +525,67 @@
   </style>
 </head>
 <body>
-  <div class="page-shell">
-    <header class="site-header">
-      <a class="wordmark" href="#" aria-label="Can Upcycle, kembali ke atas">
-        <span class="wordmark-mark" aria-hidden="true">↗</span>
-        <span>Can Upcycle</span>
-      </a>
-      <span class="header-note">A SMALL ACT OF REUSE · 2026</span>
-    </header>
+  <header class="shell topbar">
+    <a class="wordmark" href="#" aria-label="Can Upcycle, kembali ke atas">
+      <span class="mark" aria-hidden="true">↗</span>
+      <span>Can Upcycle</span>
+    </a>
+    <span class="top-note">A small second life · 2026</span>
+  </header>
 
-    <main>
-      <section class="intro" aria-labelledby="page-title">
-        <div>
-          <span class="eyebrow">DIY · UPCYCLE JOURNAL</span>
-          <h1 id="page-title">Tugas PKWU</h1>
-          <p class="intro-copy">Sebuah catatan kecil tentang mengubah benda sehari-hari menjadi sesuatu yang berguna kembali — dari proses sederhana hingga hasil akhirnya.</p>
-        </div>
-        <nav class="jump-nav" aria-label="Navigasi video">
-          <a class="jump-link" href="#video-01"><span><span class="jump-number">01&nbsp; /&nbsp; </span>Proses pembuatan</span><span aria-hidden="true">↘</span></a>
-          <a class="jump-link" href="#video-02"><span><span class="jump-number">02&nbsp; /&nbsp; </span>Promosi Produk</span><span aria-hidden="true">↘</span></a>
+  <main class="shell">
+    <section class="intro" aria-labelledby="page-title">
+      <div>
+        <p class="eyebrow">DIY / Upcycle journal</p>
+        <h1 id="page-title">Tugas PKWU</h1>
+      </div>
+      <div class="intro-aside">
+        <p>Asbak anorganik ini dibuat dari kaleng bekas yang dipotong dan dilipat pada bagian sisinya menjadi pinggiran bermotif radial. Hasilnya adalah wadah abu rokok yang tahan panas, fungsional, dan membantu mengurangi limbah logam di lingkungan.</p>
+        <nav class="jump-links" aria-label="Navigasi video">
+          <a href="#video-01">Video 01 <span aria-hidden="true">↘</span></a>
+          <a href="#video-02">Video 02 <span aria-hidden="true">↘</span></a>
         </nav>
-      </section>
+      </div>
+    </section>
 
-      <section class="showcase" aria-label="Video proyek upcycle">
+    <section aria-labelledby="showcase-title">
+      <div class="section-heading">
+        <h2 id="showcase-title">The making, then the living</h2>
+        <span>2 CHAPTERS &nbsp;·&nbsp; <span id="chapter-duration">02:08</span></span>
+      </div>
+
+      <div class="video-grid">
         <article class="video-card" id="video-01">
           <div class="media-frame">
             <video class="project-video" preload="metadata" playsinline aria-label="Video proses pembuatan">
-              <source src="WhatsApp Video 2026-11-24 at 21.35.46.mp4" type="video/mp4">
-          
+              <source src="video_1.mp4" type="video/mp4">
+              Browser Anda tidak mendukung pemutaran video.
             </video>
-            <div class="media-corner"><span class="card-index">01</span><span class="duration" data-duration>01:18</span></div>
-            <div class="error-message" hidden><strong>Video belum tersedia</strong><span>Letakkan file “WhatsApp Video 2026-11-24 at 21.35.46.mp4” di folder yang sama dengan halaman ini.</span></div>
+            <div class="media-fallback" role="status">
+              <p><strong>Video belum tersedia</strong>Pastikan file video lokal ada di folder yang sama dengan halaman ini.</p>
+            </div>
+            <span class="media-label"><span class="label-dot"></span> PROSES PEMBUATAN</span>
           </div>
           <div class="card-content">
-            <div class="card-heading">
-              <h2>Proses Pembuatan</h2>
-              <span class="status" aria-live="polite">Paused</span>
+            <div class="card-kicker">
+              <span class="index">01 / PROCESS</span>
+              <span class="duration">01:18</span>
             </div>
-            <p class="card-description">Dari bahan sederhana menuju bentuk baru — langkah demi langkah, dibuat dengan tangan.</p>
-            <div class="player-controls">
-              <button class="control-play" type="button" aria-label="Putar video" aria-pressed="false">
-                <svg class="icon-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.7c0-.6.7-1 1.2-.7l8 5.3a.8.8 0 0 1 0 1.4l-8 5.3c-.5.3-1.2-.1-1.2-.7z"/></svg>
-                <svg class="icon-pause" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.3 2.5c0-.5.4-.9.9-.9h1.6c.5 0 .9.4.9.9v11c0 .5-.4.9-.9.9H4.2c-.5 0-.9-.4-.9-.9zm6 0c0-.5.4-.9.9-.9h1.6c.5 0 .9.4.9.9v11c0 .5-.4.9-.9.9h-1.6c-.5 0-.9-.4-.9-.9z"/></svg>
-              </button>
-              <div class="seek-wrap">
-                <input class="seek" type="range" min="0" max="78" value="0" step="0.1" aria-label="Posisi video">
-                <div class="time-readout"><span data-current>00:00</span><span data-total>01:18</span></div>
+            <h3>Proses Pembuatan</h3>
+            <p class="description">Dari bahan yang ada menjadi sesuatu yang baru — langkah demi langkah, tanpa terburu-buru.</p>
+            <div class="control-panel" aria-label="Kontrol video proses">
+              <div class="seek-row">
+                <span class="time-readout current-time">00:00</span>
+                <input class="seek" type="range" min="0" max="100" value="0" step="0.1" aria-label="Geser posisi video">
+                <span class="time-readout total-time">01:18</span>
               </div>
-              <div class="volume-controls">
-                <button class="volume-toggle" type="button" aria-label="Bisukan video" aria-pressed="false">
-                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 6h2.5l3.5-3v10l-3.5-3H2z" fill="currentColor"/><path class="volume-wave" d="M10 5a4 4 0 0 1 0 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path class="volume-mute" d="m10 5 4 6m0-6-4 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-                </button>
-                <input class="volume-slider" type="range" min="0" max="1" value="1" step="0.05" aria-label="Volume video">
+              <div class="control-actions">
+                <div class="left-actions">
+                  <button class="play-button" type="button" aria-label="Putar video" title="Putar video"><span aria-hidden="true">▶</span></button>
+                  <span class="status" aria-live="polite">Paused</span>
+                </div>
+                <button class="expand-button" type="button" aria-label="Perbesar video"><span class="expand-icon" aria-hidden="true">⤢</span> Perbesar</button>
               </div>
-              <button class="expand-button" type="button" aria-label="Perbesar video">
-                <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 2.5H2.5V6M10 2.5h3.5V6M2.5 10v3.5H6M13.5 10v3.5H10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                <span>Perbesar</span>
-              </button>
             </div>
           </div>
         </article>
@@ -554,313 +593,279 @@
         <article class="video-card" id="video-02">
           <div class="media-frame">
             <video class="project-video" preload="metadata" playsinline aria-label="Video promosi produk">
-              <source src="WhatsApp Video 2026-11-24 at 18.04.00.mp4" type="video/mp4">
+              <source src="video_2.mp4" type="video/mp4">
+              Browser Anda tidak mendukung pemutaran video.
             </video>
-            <div class="media-corner"><span class="card-index">02</span><span class="duration" data-duration>00:50</span></div>
-            <div class="error-message" hidden><strong>Video belum tersedia</strong><span>Letakkan file “WhatsApp Video 2026-11-24 at 18.04.00.mp4” di folder yang sama dengan halaman ini.</span></div>
+            <div class="media-fallback" role="status">
+              <p><strong>Video belum tersedia</strong>Pastikan file video lokal ada di folder yang sama dengan halaman ini.</p>
+            </div>
+            <span class="media-label"><span class="label-dot"></span> HASIL</span>
           </div>
           <div class="card-content">
-            <div class="card-heading">
-              <h2>Promosi Produk</h2>
-              <span class="status" aria-live="polite">Paused</span>
+            <div class="card-kicker">
+              <span class="index">02 / SHOWCASE</span>
+              <span class="duration">00:50</span>
             </div>
-            <p class="card-description">Kenali hasil upcycle yang siap digunakan dan memberi nilai baru pada benda sehari-hari.</p>
-            <div class="player-controls">
-              <button class="control-play" type="button" aria-label="Putar video" aria-pressed="false">
-                <svg class="icon-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.7c0-.6.7-1 1.2-.7l8 5.3a.8.8 0 0 1 0 1.4l-8 5.3c-.5.3-1.2-.1-1.2-.7z"/></svg>
-                <svg class="icon-pause" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.3 2.5c0-.5.4-.9.9-.9h1.6c.5 0 .9.4.9.9v11c0 .5-.4.9-.9.9H4.2c-.5 0-.9-.4-.9-.9zm6 0c0-.5.4-.9.9-.9h1.6c.5 0 .9.4.9.9v11c0 .5-.4.9-.9.9h-1.6c-.5 0-.9-.4-.9-.9z"/></svg>
-              </button>
-              <div class="seek-wrap">
-                <input class="seek" type="range" min="0" max="50" value="0" step="0.1" aria-label="Posisi video">
-                <div class="time-readout"><span data-current>00:00</span><span data-total>00:50</span></div>
+            <h3>Promosi Produk</h3>
+            <p class="description">Sebuah hasil sederhana kembali ke ruang terbuka — siap menemani hari-hari berikutnya.</p>
+            <div class="control-panel" aria-label="Kontrol video hasil">
+              <div class="seek-row">
+                <span class="time-readout current-time">00:00</span>
+                <input class="seek" type="range" min="0" max="100" value="0" step="0.1" aria-label="Geser posisi video">
+                <span class="time-readout total-time">00:50</span>
               </div>
-              <div class="volume-controls">
-                <button class="volume-toggle" type="button" aria-label="Bisukan video" aria-pressed="false">
-                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 6h2.5l3.5-3v10l-3.5-3H2z" fill="currentColor"/><path class="volume-wave" d="M10 5a4 4 0 0 1 0 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path class="volume-mute" d="m10 5 4 6m0-6-4 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-                </button>
-                <input class="volume-slider" type="range" min="0" max="1" value="1" step="0.05" aria-label="Volume video">
+              <div class="control-actions">
+                <div class="left-actions">
+                  <button class="play-button" type="button" aria-label="Putar video" title="Putar video"><span aria-hidden="true">▶</span></button>
+                  <span class="status" aria-live="polite">Paused</span>
+                </div>
+                <button class="expand-button" type="button" aria-label="Perbesar video"><span class="expand-icon" aria-hidden="true">⤢</span> Perbesar</button>
               </div>
-              <button class="expand-button" type="button" aria-label="Perbesar video">
-                <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 2.5H2.5V6M10 2.5h3.5V6M2.5 10v3.5H6M13.5 10v3.5H10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                <span>Perbesar</span>
-              </button>
             </div>
           </div>
         </article>
-      </section>
-    </main>
+      </div>
+    </section>
+  </main>
 
-    <footer class="site-footer">
-      <span class="footer-note">Benda lama, kemungkinan baru.</span>
-      <span class="footer-note">Sebuah proyek kecil tentang penggunaan ulang.</span>
-    </footer>
+  <footer class="shell footer">
+    <p>Ide kecil untuk memberi barang lama kehidupan baru.</p>
+    <span class="footer-mark">MAKE / REUSE / REPEAT</span>
+  </footer>
+
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightbox-title">
+    <div class="lightbox-dialog">
+      <div class="lightbox-top">
+        <div class="lightbox-heading">
+          <span id="lightbox-index">01</span>
+          <h2 id="lightbox-title">Proses Pembuatan</h2>
+        </div>
+        <button class="modal-close" type="button" aria-label="Tutup video" title="Tutup (Esc)">×</button>
+      </div>
+      <div class="lightbox-media" id="lightbox-media"></div>
+      <div class="lightbox-controls" id="lightbox-controls"></div>
+    </div>
   </div>
 
-  <dialog aria-label="Pemutar video diperbesar">
-    <div class="lightbox">
-      <div class="lightbox-top">
-        <div class="lightbox-title"><strong data-modal-title></strong><span data-modal-index></span></div>
-        <button class="icon-button close-modal" type="button" aria-label="Tutup">
-          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m4 4 8 8m0-8-8 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-        </button>
-      </div>
-      <div class="lightbox-stage"></div>
-      <div class="lightbox-controls">
-        <button class="control-play modal-play" type="button" aria-label="Putar video" aria-pressed="false">
-          <svg class="icon-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.7c0-.6.7-1 1.2-.7l8 5.3a.8.8 0 0 1 0 1.4l-8 5.3c-.5.3-1.2-.1-1.2-.7z"/></svg>
-          <svg class="icon-pause" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.3 2.5c0-.5.4-.9.9-.9h1.6c.5 0 .9.4.9.9v11c0 .5-.4.9-.9.9H4.2c-.5 0-.9-.4-.9-.9zm6 0c0-.5.4-.9.9-.9h1.6c.5 0 .9.4.9.9v11c0 .5-.4.9-.9.9h-1.6c-.5 0-.9-.4-.9-.9z"/></svg>
-        </button>
-        <div class="seek-wrap">
-          <input class="seek modal-seek" type="range" min="0" max="78" value="0" step="0.1" aria-label="Posisi video">
-          <div class="time-readout"><span data-current>00:00</span><span data-total>01:18</span></div>
-        </div>
-        <span class="status modal-status" aria-live="polite">Paused</span>
-        <div class="volume-controls">
-          <button class="volume-toggle modal-volume-toggle" type="button" aria-label="Bisukan video" aria-pressed="false">
-            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 6h2.5l3.5-3v10l-3.5-3H2z" fill="currentColor"/><path class="volume-wave" d="M10 5a4 4 0 0 1 0 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path class="volume-mute" d="m10 5 4 6m0-6-4 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-          </button>
-          <input class="volume-slider modal-volume-slider" type="range" min="0" max="1" value="1" step="0.05" aria-label="Volume video">
-        </div>
-        <button class="fullscreen-button" type="button" aria-label="Layar penuh">
-          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 2.5H2.5V6M10 2.5h3.5V6M2.5 10v3.5H6M13.5 10v3.5H10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-      </div>
-    </div>
-  </dialog>
-
   <script>
-    const dialog = document.querySelector("dialog");
-    const lightboxStage = document.querySelector(".lightbox-stage");
-    const modalTitle = document.querySelector("[data-modal-title]");
-    const modalIndex = document.querySelector("[data-modal-index]");
-    const modalPlay = document.querySelector(".modal-play");
-    const modalSeek = document.querySelector(".modal-seek");
-    const modalStatus = document.querySelector(".modal-status");
-    const modalVolumeToggle = document.querySelector(".modal-volume-toggle");
-    const modalVolumeSlider = document.querySelector(".modal-volume-slider");
-    const fullscreenButton = document.querySelector(".fullscreen-button");
-    let activeVideo = null;
-    let activeCard = null;
-    let activeErrorMessage = null;
+    (() => {
+      const lightbox = document.querySelector("#lightbox");
+      const lightboxMedia = document.querySelector("#lightbox-media");
+      const lightboxControls = document.querySelector("#lightbox-controls");
+      const chapterDuration = document.querySelector("#chapter-duration");
+      const modalFallback = document.createElement("div");
+      modalFallback.className = "media-fallback";
+      modalFallback.setAttribute("role", "status");
+      modalFallback.innerHTML = "<p><strong>Video belum tersedia</strong>Pastikan file video lokal ada di folder yang sama dengan halaman ini.</p>";
+      lightboxMedia.append(modalFallback);
+      const closeButton = document.querySelector(".modal-close");
+      const title = document.querySelector("#lightbox-title");
+      const index = document.querySelector("#lightbox-index");
+      let activePlayer = null;
+      let returnFocus = null;
 
-    function formatTime(seconds) {
-      if (!Number.isFinite(seconds) || seconds < 0) return "00:00";
-      const minutes = Math.floor(seconds / 60);
-      const remainder = Math.floor(seconds % 60);
-      return String(minutes).padStart(2, "0") + ":" + String(remainder).padStart(2, "0");
-    }
+      const formatTime = (seconds) => {
+        if (!Number.isFinite(seconds)) return "00:00";
+        const wholeSeconds = Math.floor(seconds);
+        return `${String(Math.floor(wholeSeconds / 60)).padStart(2, "0")}:${String(wholeSeconds % 60).padStart(2, "0")}`;
+      };
 
-    function getDuration(video) {
-      const actual = Number.isFinite(video.duration) ? video.duration : Number(video.dataset.fallbackDuration);
-      return actual || Number(video.dataset.fallbackDuration);
-    }
+      const updatePlayer = (player) => {
+        const { video, controls } = player;
+        const duration = Number.isFinite(video.duration) ? video.duration : player.expectedDuration;
+        player.durationLabel.textContent = formatTime(duration);
+        const progress = Number.isFinite(video.duration) && video.duration > 0
+          ? (video.currentTime / video.duration) * 100
+          : 0;
+        const durations = Array.from(document.querySelectorAll(".project-video"), (media) => media.duration);
+        if (durations.every(Number.isFinite)) {
+          chapterDuration.textContent = formatTime(durations.reduce((sum, item) => sum + item, 0));
+        }
+        controls.forEach((controlSet) => {
+          controlSet.current.textContent = formatTime(video.currentTime);
+          controlSet.total.textContent = formatTime(duration);
+          controlSet.seek.value = String(progress);
+          controlSet.seek.style.setProperty("--progress", `${progress}%`);
+          controlSet.play.setAttribute("aria-label", video.paused ? "Putar video" : "Jeda video");
+          controlSet.play.title = video.paused ? "Putar video" : "Jeda video";
+          controlSet.play.firstElementChild.textContent = video.paused ? "▶" : "Ⅱ";
+          controlSet.status.textContent = video.error || video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE
+            ? "Video tidak tersedia"
+            : (video.paused ? "Paused" : "Playing");
+        });
+      };
 
-    function togglePlayback(video) {
-      if (video.paused) {
-        const playAttempt = video.play();
-        if (playAttempt && typeof playAttempt.catch === "function") {
-          playAttempt.catch(() => {
-            const frame = video.closest(".media-frame, .lightbox-stage");
-            const message = frame && frame.querySelector(".error-message");
-            if (message) message.hidden = false;
+      const playOrPause = (player) => {
+        if (player.video.paused) {
+          if (player.video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) {
+            player.fallback.classList.add("is-visible");
+            if (activePlayer === player) modalFallback.classList.add("is-visible");
+            player.controls.forEach((controlSet) => {
+              controlSet.status.textContent = "Video tidak tersedia";
+            });
+            return;
+          }
+          player.video.play().catch(() => {
+            player.fallback.classList.add("is-visible");
+            if (activePlayer === player) modalFallback.classList.add("is-visible");
+            player.controls.forEach((controlSet) => {
+              controlSet.status.textContent = "Tidak dapat memutar";
+            });
           });
+        } else {
+          player.video.pause();
         }
-      } else {
-        video.pause();
-      }
-    }
+      };
 
-    function toggleMute(video) {
-      if (video.muted || video.volume === 0) {
-        video.muted = false;
-        video.volume = Number(video.dataset.lastVolume) || 1;
-      } else {
-        video.dataset.lastVolume = String(video.volume);
-        video.muted = true;
-      }
-      updatePlayer(video);
-    }
+      const makeControlSet = (container, player, isModal) => {
+        const panel = isModal ? document.createElement("div") : container;
+        if (isModal) {
+          panel.className = "control-panel";
+          panel.innerHTML = `
+          <div class="seek-row">
+            <span class="time-readout current-time">00:00</span>
+            <input class="seek" type="range" min="0" max="100" value="0" step="0.1" aria-label="Geser posisi video">
+            <span class="time-readout total-time">00:00</span>
+          </div>
+          <div class="control-actions">
+            <div class="left-actions">
+              <button class="play-button" type="button" aria-label="Putar video" title="Putar video"><span aria-hidden="true">▶</span></button>
+              <span class="status" aria-live="polite">Paused</span>
+            </div>
+            <div class="left-actions">
+              ${isModal ? '<button class="fullscreen-button" type="button"><span aria-hidden="true">⛶</span> Layar penuh</button>' : ""}
+              <button class="expand-button" type="button"><span class="expand-icon" aria-hidden="true">⤢</span> Perbesar</button>
+            </div>
+          </div>`;
+          container.append(panel);
+        }
+        const controlSet = {
+          current: panel.querySelector(".current-time"),
+          total: panel.querySelector(".total-time"),
+          seek: panel.querySelector(".seek"),
+          play: panel.querySelector(".play-button"),
+          status: panel.querySelector(".status"),
+          expand: panel.querySelector(".expand-button"),
+          fullscreen: panel.querySelector(".fullscreen-button")
+        };
+        if (player) {
+          player.controls.push(controlSet);
+          controlSet.play.addEventListener("click", () => playOrPause(player));
+          controlSet.seek.addEventListener("input", () => {
+            if (Number.isFinite(player.video.duration)) {
+              player.video.currentTime = (Number(controlSet.seek.value) / 100) * player.video.duration;
+            }
+          });
+          controlSet.expand.addEventListener("click", () => openLightbox(player));
+          if (controlSet.fullscreen) {
+            controlSet.fullscreen.addEventListener("click", () => {
+              const fullscreenElement = document.fullscreenElement;
+              if (fullscreenElement) {
+                document.exitFullscreen();
+              } else if (lightbox.requestFullscreen) {
+                lightbox.requestFullscreen();
+              }
+            });
+          }
+        }
+        return controlSet;
+      };
 
-    function setVolume(video, value) {
-      const volume = Number(value);
-      video.volume = volume;
-      video.muted = volume === 0;
-      if (volume > 0) video.dataset.lastVolume = String(volume);
-      updatePlayer(video);
-    }
-
-    function updatePlayer(video) {
-      const duration = getDuration(video);
-      const current = video.currentTime || 0;
-      const playing = !video.paused && !video.ended;
-      const muted = video.muted || video.volume === 0;
-      const card = video.closest(".video-card");
-      const cardPlay = card && card.querySelector(".control-play");
-      const cardStatus = card && card.querySelector(".status");
-      const cardSeek = card && card.querySelector(".seek");
-      const cardVolumeToggle = card && card.querySelector(".volume-toggle");
-      const cardVolumeSlider = card && card.querySelector(".volume-slider");
-      const cardCurrent = card && card.querySelector("[data-current]");
-      const cardTotal = card && card.querySelector("[data-total]");
-
-      if (cardPlay) {
-        cardPlay.setAttribute("aria-pressed", String(playing));
-        cardPlay.setAttribute("aria-label", playing ? "Jeda video" : "Putar video");
-      }
-      if (cardStatus) {
-        cardStatus.textContent = playing ? "Playing" : "Paused";
-        cardStatus.classList.toggle("is-playing", playing);
-      }
-      if (cardSeek) {
-        cardSeek.max = String(duration);
-        cardSeek.value = String(current);
-      }
-      if (cardCurrent) cardCurrent.textContent = formatTime(current);
-      if (cardTotal) cardTotal.textContent = formatTime(duration);
-      if (cardVolumeToggle) {
-        cardVolumeToggle.setAttribute("aria-pressed", String(muted));
-        cardVolumeToggle.setAttribute("aria-label", muted ? "Aktifkan suara video" : "Bisukan video");
-      }
-      if (cardVolumeSlider) cardVolumeSlider.value = String(video.volume);
-
-      if (video === activeVideo) {
-        modalPlay.setAttribute("aria-pressed", String(playing));
-        modalPlay.setAttribute("aria-label", playing ? "Jeda video" : "Putar video");
-        modalStatus.textContent = playing ? "Playing" : "Paused";
-        modalStatus.classList.toggle("is-playing", playing);
-        modalSeek.max = String(duration);
-        modalSeek.value = String(current);
-        modalVolumeToggle.setAttribute("aria-pressed", String(muted));
-        modalVolumeToggle.setAttribute("aria-label", muted ? "Aktifkan suara video" : "Bisukan video");
-        modalVolumeSlider.value = String(video.volume);
-        const modalCurrent = dialog.querySelector("[data-current]");
-        const modalTotal = dialog.querySelector("[data-total]");
-        modalCurrent.textContent = formatTime(current);
-        modalTotal.textContent = formatTime(duration);
-      }
-    }
-
-    document.querySelectorAll(".video-card").forEach((card, index) => {
-      const video = card.querySelector("video");
-      const fallbackDuration = index === 0 ? 78 : 50;
-      video.dataset.fallbackDuration = String(fallbackDuration);
-
-      const playButton = card.querySelector(".control-play");
-      const seek = card.querySelector(".seek");
-      const volumeToggle = card.querySelector(".volume-toggle");
-      const volumeSlider = card.querySelector(".volume-slider");
-      const expandButton = card.querySelector(".expand-button");
-      const errorMessage = card.querySelector(".error-message");
-      video.muted = false;
-      video.volume = 1;
-      video.dataset.lastVolume = "1";
-
-      playButton.addEventListener("click", () => togglePlayback(video));
-      volumeToggle.addEventListener("click", () => toggleMute(video));
-      volumeSlider.addEventListener("input", () => setVolume(video, volumeSlider.value));
-      video.addEventListener("click", () => togglePlayback(video));
-      video.addEventListener("play", () => updatePlayer(video));
-      video.addEventListener("pause", () => updatePlayer(video));
-      video.addEventListener("ended", () => updatePlayer(video));
-      video.addEventListener("timeupdate", () => updatePlayer(video));
-      video.addEventListener("volumechange", () => updatePlayer(video));
-      video.addEventListener("loadedmetadata", () => {
-        errorMessage.hidden = true;
-        updatePlayer(video);
-      });
-      video.addEventListener("error", () => { errorMessage.hidden = false; });
-      seek.addEventListener("input", () => {
-        video.currentTime = Number(seek.value);
-        updatePlayer(video);
+      const players = Array.from(document.querySelectorAll(".video-card")).map((card, playerIndex) => {
+        const video = card.querySelector("video");
+        const player = {
+          card,
+          video,
+          expectedDuration: playerIndex === 0 ? 78 : 50,
+          controls: [],
+          frame: card.querySelector(".media-frame"),
+          fallback: card.querySelector(".media-fallback"),
+          durationLabel: card.querySelector(".duration"),
+          name: card.querySelector("h3").textContent,
+          number: String(playerIndex + 1).padStart(2, "0"),
+          placeholder: null
+        };
+        makeControlSet(card.querySelector(".control-panel"), player, false);
+        video.addEventListener("timeupdate", () => updatePlayer(player));
+        video.addEventListener("loadedmetadata", () => updatePlayer(player));
+        video.addEventListener("durationchange", () => updatePlayer(player));
+        video.addEventListener("play", () => updatePlayer(player));
+        video.addEventListener("pause", () => updatePlayer(player));
+        video.addEventListener("ended", () => updatePlayer(player));
+        video.addEventListener("error", () => {
+          player.fallback.classList.add("is-visible");
+          if (activePlayer === player) modalFallback.classList.add("is-visible");
+          updatePlayer(player);
+        });
+        video.addEventListener("click", () => playOrPause(player));
+        updatePlayer(player);
+        return player;
       });
 
-      window.setTimeout(() => {
-        if (video.networkState === video.NETWORK_NO_SOURCE && video.readyState === video.HAVE_NOTHING) {
-          errorMessage.hidden = false;
-        }
-      }, 1200);
+      makeControlSet(lightboxControls, null, true);
 
-      expandButton.addEventListener("click", () => {
-        activeVideo = video;
-        activeCard = card;
-        activeErrorMessage = errorMessage;
-        lightboxStage.append(video);
-        lightboxStage.append(errorMessage);
-        modalTitle.textContent = card.querySelector("h2").textContent;
-        modalIndex.textContent = "0" + (index + 1);
-        dialog.showModal();
-        updatePlayer(video);
-        document.querySelector(".close-modal").focus();
+      const modalControl = lightboxControls.querySelector(".control-panel");
+      const modalControls = {
+        current: modalControl.querySelector(".current-time"),
+        total: modalControl.querySelector(".total-time"),
+        seek: modalControl.querySelector(".seek"),
+        play: modalControl.querySelector(".play-button"),
+        status: modalControl.querySelector(".status"),
+        expand: modalControl.querySelector(".expand-button"),
+        fullscreen: modalControl.querySelector(".fullscreen-button")
+      };
+
+      const openLightbox = (player) => {
+        if (activePlayer) closeLightbox();
+        activePlayer = player;
+        returnFocus = document.activeElement;
+        player.placeholder = document.createComment("video location");
+        player.video.parentNode.insertBefore(player.placeholder, player.video);
+        lightboxMedia.append(player.video);
+        const videoUnavailable = Boolean(player.video.error)
+          || player.video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE;
+        player.fallback.classList.toggle("is-visible", videoUnavailable);
+        modalFallback.classList.toggle("is-visible", videoUnavailable);
+        player.controls.push(modalControls);
+        modalControls.play.onclick = () => playOrPause(player);
+        modalControls.seek.oninput = () => {
+          if (Number.isFinite(player.video.duration)) {
+            player.video.currentTime = (Number(modalControls.seek.value) / 100) * player.video.duration;
+          }
+        };
+        modalControls.fullscreen.onclick = () => {
+          if (document.fullscreenElement) document.exitFullscreen();
+          else if (lightbox.requestFullscreen) lightbox.requestFullscreen();
+        };
+        title.textContent = player.name;
+        index.textContent = player.number;
+        lightbox.classList.add("is-open");
+        document.body.style.overflow = "hidden";
+        updatePlayer(player);
+        closeButton.focus();
+      };
+
+      const closeLightbox = () => {
+        if (!activePlayer) return;
+        if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen();
+        activePlayer.placeholder.parentNode.insertBefore(activePlayer.video, activePlayer.placeholder);
+        activePlayer.placeholder.remove();
+        activePlayer.controls = activePlayer.controls.filter((controlSet) => controlSet !== modalControls);
+        lightbox.classList.remove("is-open");
+        document.body.style.overflow = "";
+        const previousFocus = returnFocus;
+        activePlayer = null;
+        if (previousFocus && previousFocus.isConnected) previousFocus.focus();
+      };
+
+      closeButton.addEventListener("click", closeLightbox);
+      lightbox.addEventListener("click", (event) => {
+        if (event.target === lightbox) closeLightbox();
       });
-
-      updatePlayer(video);
-    });
-
-    modalPlay.addEventListener("click", () => {
-      if (activeVideo) togglePlayback(activeVideo);
-    });
-
-    modalSeek.addEventListener("input", () => {
-      if (!activeVideo) return;
-      activeVideo.currentTime = Number(modalSeek.value);
-      updatePlayer(activeVideo);
-    });
-
-    modalVolumeToggle.addEventListener("click", () => {
-      if (activeVideo) toggleMute(activeVideo);
-    });
-
-    modalVolumeSlider.addEventListener("input", () => {
-      if (activeVideo) setVolume(activeVideo, modalVolumeSlider.value);
-    });
-
-    function closeLightbox() {
-      if (!activeVideo || !activeCard) return;
-      const video = lightboxStage.querySelector("video");
-      if (!video) {
-        console.error("Video pemutar tidak ditemukan saat menutup tampilan.");
-        return;
-      }
-      const frame = activeCard.querySelector(".media-frame");
-      video.pause();
-      frame.prepend(activeErrorMessage);
-      frame.prepend(video);
-      updatePlayer(video);
-      if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen();
-      activeVideo = null;
-      activeCard = null;
-      activeErrorMessage = null;
-      dialog.close();
-    }
-
-    document.querySelector(".close-modal").addEventListener("click", closeLightbox);
-    dialog.addEventListener("cancel", (event) => {
-      event.preventDefault();
-      closeLightbox();
-    });
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && dialog.open) {
-        event.preventDefault();
-        closeLightbox();
-      }
-    });
-    dialog.addEventListener("click", (event) => {
-      if (event.target === dialog) closeLightbox();
-    });
-
-    fullscreenButton.addEventListener("click", async () => {
-      try {
-        if (document.fullscreenElement) {
-          await document.exitFullscreen();
-        } else if (lightboxStage.requestFullscreen) {
-          await lightboxStage.requestFullscreen();
-        } else if (activeVideo && activeVideo.requestFullscreen) {
-          await activeVideo.requestFullscreen();
-        }
-      } catch (error) {
-        console.error("Mode layar penuh tidak dapat dibuka:", error);
-      }
-    });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && lightbox.classList.contains("is-open")) closeLightbox();
+      });
+    })();
   </script>
 </body>
 </html>
