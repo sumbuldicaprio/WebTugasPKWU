@@ -1,0 +1,865 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f7f5">
+  <title>Can Upcycle — Process &amp; Showcase</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f7f7f5;
+      --surface: #fff;
+      --ink: #141414;
+      --muted: #777972;
+      --line: rgba(20, 20, 20, .09);
+      --olive: #3a5a40;
+      --olive-soft: #e9eee8;
+      --serif: Georgia, "Times New Roman", serif;
+      --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Inter, "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, a { font: inherit; }
+    button { color: inherit; }
+
+    .page-shell {
+      width: min(1120px, calc(100% - 64px));
+      margin: 0 auto;
+    }
+
+    .site-header {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .wordmark {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 650;
+      letter-spacing: -.025em;
+    }
+
+    .wordmark-mark {
+      display: grid;
+      width: 25px;
+      height: 25px;
+      place-items: center;
+      border: 1px solid rgba(58, 90, 64, .25);
+      border-radius: 8px;
+      color: var(--olive);
+      font-family: var(--serif);
+      font-size: 17px;
+      line-height: 1;
+    }
+
+    .header-note, .eyebrow, .card-index, .duration, .time-readout, .footer-note {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: .035em;
+    }
+
+    .header-note { color: var(--muted); }
+
+    .intro {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 250px;
+      align-items: end;
+      gap: 60px;
+      padding: 78px 0 56px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--olive);
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      width: 18px;
+      height: 1px;
+      background: currentColor;
+      content: "";
+    }
+
+    h1 {
+      max-width: 700px;
+      margin: 20px 0 16px;
+      font-family: var(--serif);
+      font-size: clamp(44px, 6vw, 72px);
+      font-weight: 400;
+      letter-spacing: -.065em;
+      line-height: .99;
+    }
+
+    .intro-copy {
+      max-width: 510px;
+      margin: 0;
+      color: #656660;
+      font-size: 15px;
+      line-height: 1.75;
+    }
+
+    .jump-nav {
+      display: grid;
+      gap: 10px;
+      padding-bottom: 4px;
+    }
+
+    .jump-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line);
+      color: var(--ink);
+      font-size: 12px;
+      text-decoration: none;
+      transition: color .2s ease;
+    }
+
+    .jump-link:hover { color: var(--olive); }
+    .jump-number { color: var(--muted); font-family: var(--mono); font-size: 10px; }
+
+    .showcase {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+      padding-bottom: 72px;
+    }
+
+    .video-card {
+      min-width: 0;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--surface);
+    }
+
+    .media-frame {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 1.43;
+      border-radius: 11px;
+      background: #e9e9e4;
+    }
+
+    .media-frame video {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      cursor: pointer;
+    }
+
+    .media-corner {
+      position: absolute;
+      z-index: 1;
+      top: 12px;
+      left: 12px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 9px;
+      border: 1px solid rgba(20, 20, 20, .07);
+      border-radius: 7px;
+      background: rgba(247, 247, 245, .88);
+      color: var(--ink);
+      backdrop-filter: blur(8px);
+    }
+
+    .card-index { color: var(--olive); }
+    .duration { color: var(--muted); }
+
+    .error-message {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      gap: 9px;
+      padding: 24px;
+      background: #ecece7;
+      color: #585a54;
+      text-align: center;
+    }
+
+    .error-message[hidden] { display: none; }
+    .error-message strong { color: var(--ink); font-size: 13px; font-weight: 550; }
+    .error-message span { max-width: 290px; font-size: 11px; line-height: 1.6; }
+
+    .card-content { padding: 18px 5px 5px; }
+
+    .card-heading {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    h2 {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: 25px;
+      font-weight: 400;
+      letter-spacing: -.04em;
+    }
+
+    .status {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .status::before {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #aaa;
+      content: "";
+    }
+
+    .status.is-playing { color: var(--olive); }
+    .status.is-playing::before { background: #6b8c6b; }
+
+    .card-description {
+      min-height: 42px;
+      margin: 8px 0 17px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.65;
+    }
+
+    .player-controls {
+      display: grid;
+      grid-template-columns: auto minmax(55px, 1fr) auto auto;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .control-play, .expand-button, .icon-button, .fullscreen-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--line);
+      background: transparent;
+      cursor: pointer;
+      transition: border-color .2s ease, background .2s ease, color .2s ease;
+    }
+
+    .control-play {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+    }
+
+    .control-play:hover, .expand-button:hover, .icon-button:hover, .fullscreen-button:hover {
+      border-color: rgba(58, 90, 64, .35);
+      background: var(--olive-soft);
+      color: var(--olive);
+    }
+
+    .control-play svg { width: 13px; height: 13px; fill: currentColor; }
+    .icon-pause { display: none; }
+    .control-play[aria-pressed="true"] .icon-play { display: none; }
+    .control-play[aria-pressed="true"] .icon-pause { display: block; }
+
+    .volume-controls {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .volume-toggle {
+      display: inline-flex;
+      width: 28px;
+      height: 30px;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+    }
+
+    .volume-toggle:hover { background: var(--olive-soft); color: var(--olive); }
+    .volume-toggle svg { width: 15px; height: 15px; }
+    .volume-mute { display: none; }
+    .volume-toggle[aria-pressed="true"] .volume-wave { display: none; }
+    .volume-toggle[aria-pressed="true"] .volume-mute { display: block; }
+
+    .volume-slider {
+      width: 56px;
+      height: 3px;
+      margin: 0;
+      accent-color: var(--olive);
+      cursor: pointer;
+    }
+
+    .seek-wrap { display: grid; gap: 7px; }
+
+    .seek {
+      width: 100%;
+      height: 3px;
+      margin: 0;
+      accent-color: var(--olive);
+      cursor: pointer;
+    }
+
+    .time-readout {
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 9px;
+    }
+
+    .expand-button {
+      min-height: 35px;
+      gap: 7px;
+      padding: 0 10px;
+      border-radius: 8px;
+      font-size: 10px;
+    }
+
+    .expand-button svg { width: 13px; height: 13px; }
+
+    .site-footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 19px 0 25px;
+      border-top: 1px solid var(--line);
+    }
+
+    .footer-note { color: var(--muted); line-height: 1.6; }
+    .footer-note:last-child { text-align: right; }
+
+    dialog {
+      width: min(1000px, calc(100% - 36px));
+      max-width: none;
+      max-height: calc(100% - 36px);
+      padding: 0;
+      overflow: visible;
+      border: 1px solid rgba(255, 255, 255, .16);
+      border-radius: 16px;
+      background: #111;
+      color: white;
+    }
+
+    dialog::backdrop {
+      background: rgba(15, 16, 14, .78);
+      backdrop-filter: blur(9px);
+    }
+
+    .lightbox { padding: 14px; }
+
+    .lightbox-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 2px 2px 13px;
+    }
+
+    .lightbox-title {
+      display: flex;
+      align-items: baseline;
+      gap: 11px;
+      min-width: 0;
+    }
+
+    .lightbox-title strong {
+      overflow: hidden;
+      font-family: var(--serif);
+      font-size: 20px;
+      font-weight: 400;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .lightbox-title span { color: #b6b8b2; font-family: var(--mono); font-size: 10px; }
+
+    .icon-button, .fullscreen-button {
+      width: 34px;
+      height: 34px;
+      flex: 0 0 auto;
+      border-color: rgba(255, 255, 255, .2);
+      border-radius: 50%;
+      color: white;
+    }
+
+    .icon-button svg, .fullscreen-button svg { width: 15px; height: 15px; }
+
+    .lightbox-stage {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+      border-radius: 9px;
+      background: #090909;
+    }
+
+    .lightbox-stage video { width: 100%; height: 100%; object-fit: contain; }
+    .lightbox-stage .error-message { background: #22231f; color: #c4c6bf; }
+    .lightbox-stage .error-message strong { color: white; }
+
+    .lightbox-controls {
+      display: grid;
+      grid-template-columns: auto minmax(50px, 1fr) auto auto auto;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 2px 1px;
+    }
+
+    .lightbox .control-play {
+      border-color: rgba(255, 255, 255, .24);
+      color: white;
+    }
+
+    .lightbox .control-play:hover, .lightbox .fullscreen-button:hover {
+      border-color: rgba(255, 255, 255, .45);
+      background: rgba(255, 255, 255, .1);
+      color: white;
+    }
+
+    .lightbox .volume-toggle { color: #d3d5cf; }
+    .lightbox .volume-toggle:hover { background: rgba(255, 255, 255, .1); color: white; }
+    .lightbox .volume-slider { accent-color: #a7b99f; }
+    .lightbox .time-readout { color: #c4c6bf; }
+    .lightbox .seek { accent-color: #a7b99f; }
+
+    :focus-visible { outline: 2px solid #718a6f; outline-offset: 3px; }
+
+    @media (max-width: 760px) {
+      .page-shell { width: min(560px, calc(100% - 40px)); }
+      .intro { grid-template-columns: 1fr; gap: 28px; padding: 58px 0 40px; }
+      .jump-nav { grid-template-columns: 1fr 1fr; gap: 18px; }
+      .showcase { grid-template-columns: 1fr; gap: 16px; padding-bottom: 52px; }
+      .card-description { min-height: auto; }
+    }
+
+    @media (max-width: 440px) {
+      .page-shell { width: calc(100% - 32px); }
+      .header-note { font-size: 9px; }
+      .intro { padding-top: 48px; }
+      .video-card { padding: 9px; border-radius: 15px; }
+      .media-frame { aspect-ratio: 1.25; }
+      .card-content { padding: 15px 3px 4px; }
+      h2 { font-size: 22px; }
+      .status { font-size: 9px; }
+      .player-controls { gap: 8px; }
+      .volume-controls { gap: 2px; }
+      .volume-slider { width: 42px; }
+      .expand-button { gap: 5px; padding: 0 8px; }
+      .site-footer { flex-direction: column; gap: 7px; }
+      .footer-note:last-child { text-align: left; }
+      .lightbox { padding: 10px; }
+      .lightbox-controls { gap: 9px; }
+      .lightbox-title strong { font-size: 17px; }
+      .lightbox-title span { font-size: 9px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="wordmark" href="#" aria-label="Can Upcycle, kembali ke atas">
+        <span class="wordmark-mark" aria-hidden="true">↗</span>
+        <span>Can Upcycle</span>
+      </a>
+      <span class="header-note">A SMALL ACT OF REUSE · 2026</span>
+    </header>
+
+    <main>
+      <section class="intro" aria-labelledby="page-title">
+        <div>
+          <span class="eyebrow">DIY · UPCYCLE JOURNAL</span>
+          <h1 id="page-title">Made with care.<br>Given a new life.</h1>
+          <p class="intro-copy">Sebuah catatan kecil tentang mengubah benda sehari-hari menjadi sesuatu yang berguna kembali — dari proses sederhana hingga hasil akhirnya.</p>
+        </div>
+        <nav class="jump-nav" aria-label="Navigasi video">
+          <a class="jump-link" href="#video-01"><span><span class="jump-number">01&nbsp; /&nbsp; </span>Proses pembuatan</span><span aria-hidden="true">↘</span></a>
+          <a class="jump-link" href="#video-02"><span><span class="jump-number">02&nbsp; /&nbsp; </span>Hasil &amp; penggunaan</span><span aria-hidden="true">↘</span></a>
+        </nav>
+      </section>
+
+      <section class="showcase" aria-label="Video proyek upcycle">
+        <article class="video-card" id="video-01">
+          <div class="media-frame">
+            <video class="project-video" preload="metadata" playsinline aria-label="Video proses pembuatan">
+              <source src="WhatsApp%20Video%202026-11-24%20at%2009.15.01.mp4" type="video/mp4">
+            </video>
+            <div class="media-corner"><span class="card-index">01</span><span class="duration" data-duration>01:18</span></div>
+            <div class="error-message" hidden><strong>Video belum tersedia</strong><span>Letakkan file “WhatsApp Video 2026-11-24 at 09.15.01.mp4” di folder yang sama dengan halaman ini.</span></div>
+          </div>
+          <div class="card-content">
+            <div class="card-heading">
+              <h2>Proses Pembuatan</h2>
+              <span class="status" aria-live="polite">Paused</span>
+            </div>
+            <p class="card-description">Dari bahan sederhana menuju bentuk baru — langkah demi langkah, dibuat dengan tangan.</p>
+            <div class="player-controls">
+              <button class="control-play" type="button" aria-label="Putar video" aria-pressed="false">
+                <svg class="icon-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.7c0-.6.7-1 1.2-.7l8 5.3a.8.8 0 0 1 0 1.4l-8 5.3c-.5.3-1.2-.1-1.2-.7z"/></svg>
+                <svg class="icon-pause" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.3 2.5c0-.5.4-.9.9-.9h1.6c.5 0 .9.4.9.9v11c0 .5-.4.9-.9.9H4.2c-.5 0-.9-.4-.9-.9zm6 0c0-.5.4-.9.9-.9h1.6c.5 0 .9.4.9.9v11c0 .5-.4.9-.9.9h-1.6c-.5 0-.9-.4-.9-.9z"/></svg>
+              </button>
+              <div class="seek-wrap">
+                <input class="seek" type="range" min="0" max="78" value="0" step="0.1" aria-label="Posisi video">
+                <div class="time-readout"><span data-current>00:00</span><span data-total>01:18</span></div>
+              </div>
+              <div class="volume-controls">
+                <button class="volume-toggle" type="button" aria-label="Bisukan video" aria-pressed="false">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 6h2.5l3.5-3v10l-3.5-3H2z" fill="currentColor"/><path class="volume-wave" d="M10 5a4 4 0 0 1 0 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path class="volume-mute" d="m10 5 4 6m0-6-4 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                </button>
+                <input class="volume-slider" type="range" min="0" max="1" value="1" step="0.05" aria-label="Volume video">
+              </div>
+              <button class="expand-button" type="button" aria-label="Perbesar video">
+                <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 2.5H2.5V6M10 2.5h3.5V6M2.5 10v3.5H6M13.5 10v3.5H10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>Perbesar</span>
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <article class="video-card" id="video-02">
+          <div class="media-frame">
+            <video class="project-video" preload="metadata" playsinline aria-label="Video hasil akhir di taman">
+              <source src="WhatsApp%20Video%202026-11-24%20at%2018.04.00.mp4" type="video/mp4">
+            </video>
+            <div class="media-corner"><span class="card-index">02</span><span class="duration" data-duration>00:50</span></div>
+            <div class="error-message" hidden><strong>Video belum tersedia</strong><span>Letakkan file “WhatsApp Video 2026-11-24 at 18.04.00.mp4” di folder yang sama dengan halaman ini.</span></div>
+          </div>
+          <div class="card-content">
+            <div class="card-heading">
+              <h2>Hasil Akhir di Taman</h2>
+              <span class="status" aria-live="polite">Paused</span>
+            </div>
+            <p class="card-description">Melihat kembali hasilnya di ruang terbuka, siap menjadi bagian dari keseharian.</p>
+            <div class="player-controls">
+              <button class="control-play" type="button" aria-label="Putar video" aria-pressed="false">
+                <svg class="icon-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.7c0-.6.7-1 1.2-.7l8 5.3a.8.8 0 0 1 0 1.4l-8 5.3c-.5.3-1.2-.1-1.2-.7z"/></svg>
+                <svg class="icon-pause" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.3 2.5c0-.5.4-.9.9-.9h1.6c.5 0 .9.4.9.9v11c0 .5-.4.9-.9.9H4.2c-.5 0-.9-.4-.9-.9zm6 0c0-.5.4-.9.9-.9h1.6c.5 0 .9.4.9.9v11c0 .5-.4.9-.9.9h-1.6c-.5 0-.9-.4-.9-.9z"/></svg>
+              </button>
+              <div class="seek-wrap">
+                <input class="seek" type="range" min="0" max="50" value="0" step="0.1" aria-label="Posisi video">
+                <div class="time-readout"><span data-current>00:00</span><span data-total>00:50</span></div>
+              </div>
+              <div class="volume-controls">
+                <button class="volume-toggle" type="button" aria-label="Bisukan video" aria-pressed="false">
+                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 6h2.5l3.5-3v10l-3.5-3H2z" fill="currentColor"/><path class="volume-wave" d="M10 5a4 4 0 0 1 0 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path class="volume-mute" d="m10 5 4 6m0-6-4 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                </button>
+                <input class="volume-slider" type="range" min="0" max="1" value="1" step="0.05" aria-label="Volume video">
+              </div>
+              <button class="expand-button" type="button" aria-label="Perbesar video">
+                <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 2.5H2.5V6M10 2.5h3.5V6M2.5 10v3.5H6M13.5 10v3.5H10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>Perbesar</span>
+              </button>
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span class="footer-note">Benda lama, kemungkinan baru.</span>
+      <span class="footer-note">Sebuah proyek kecil tentang penggunaan ulang.</span>
+    </footer>
+  </div>
+
+  <dialog aria-label="Pemutar video diperbesar">
+    <div class="lightbox">
+      <div class="lightbox-top">
+        <div class="lightbox-title"><strong data-modal-title></strong><span data-modal-index></span></div>
+        <button class="icon-button close-modal" type="button" aria-label="Tutup">
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m4 4 8 8m0-8-8 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <div class="lightbox-stage"></div>
+      <div class="lightbox-controls">
+        <button class="control-play modal-play" type="button" aria-label="Putar video" aria-pressed="false">
+          <svg class="icon-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.7c0-.6.7-1 1.2-.7l8 5.3a.8.8 0 0 1 0 1.4l-8 5.3c-.5.3-1.2-.1-1.2-.7z"/></svg>
+          <svg class="icon-pause" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.3 2.5c0-.5.4-.9.9-.9h1.6c.5 0 .9.4.9.9v11c0 .5-.4.9-.9.9H4.2c-.5 0-.9-.4-.9-.9zm6 0c0-.5.4-.9.9-.9h1.6c.5 0 .9.4.9.9v11c0 .5-.4.9-.9.9h-1.6c-.5 0-.9-.4-.9-.9z"/></svg>
+        </button>
+        <div class="seek-wrap">
+          <input class="seek modal-seek" type="range" min="0" max="78" value="0" step="0.1" aria-label="Posisi video">
+          <div class="time-readout"><span data-current>00:00</span><span data-total>01:18</span></div>
+        </div>
+        <span class="status modal-status" aria-live="polite">Paused</span>
+        <div class="volume-controls">
+          <button class="volume-toggle modal-volume-toggle" type="button" aria-label="Bisukan video" aria-pressed="false">
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 6h2.5l3.5-3v10l-3.5-3H2z" fill="currentColor"/><path class="volume-wave" d="M10 5a4 4 0 0 1 0 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path class="volume-mute" d="m10 5 4 6m0-6-4 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          </button>
+          <input class="volume-slider modal-volume-slider" type="range" min="0" max="1" value="1" step="0.05" aria-label="Volume video">
+        </div>
+        <button class="fullscreen-button" type="button" aria-label="Layar penuh">
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 2.5H2.5V6M10 2.5h3.5V6M2.5 10v3.5H6M13.5 10v3.5H10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </dialog>
+
+  <script>
+    const dialog = document.querySelector("dialog");
+    const lightboxStage = document.querySelector(".lightbox-stage");
+    const modalTitle = document.querySelector("[data-modal-title]");
+    const modalIndex = document.querySelector("[data-modal-index]");
+    const modalPlay = document.querySelector(".modal-play");
+    const modalSeek = document.querySelector(".modal-seek");
+    const modalStatus = document.querySelector(".modal-status");
+    const modalVolumeToggle = document.querySelector(".modal-volume-toggle");
+    const modalVolumeSlider = document.querySelector(".modal-volume-slider");
+    const fullscreenButton = document.querySelector(".fullscreen-button");
+    let activeVideo = null;
+    let activeCard = null;
+    let activeErrorMessage = null;
+
+    function formatTime(seconds) {
+      if (!Number.isFinite(seconds) || seconds < 0) return "00:00";
+      const minutes = Math.floor(seconds / 60);
+      const remainder = Math.floor(seconds % 60);
+      return String(minutes).padStart(2, "0") + ":" + String(remainder).padStart(2, "0");
+    }
+
+    function getDuration(video) {
+      const actual = Number.isFinite(video.duration) ? video.duration : Number(video.dataset.fallbackDuration);
+      return actual || Number(video.dataset.fallbackDuration);
+    }
+
+    function togglePlayback(video) {
+      if (video.paused) {
+        const playAttempt = video.play();
+        if (playAttempt && typeof playAttempt.catch === "function") {
+          playAttempt.catch(() => {
+            const frame = video.closest(".media-frame, .lightbox-stage");
+            const message = frame && frame.querySelector(".error-message");
+            if (message) message.hidden = false;
+          });
+        }
+      } else {
+        video.pause();
+      }
+    }
+
+    function toggleMute(video) {
+      if (video.muted || video.volume === 0) {
+        video.muted = false;
+        video.volume = Number(video.dataset.lastVolume) || 1;
+      } else {
+        video.dataset.lastVolume = String(video.volume);
+        video.muted = true;
+      }
+      updatePlayer(video);
+    }
+
+    function setVolume(video, value) {
+      const volume = Number(value);
+      video.volume = volume;
+      video.muted = volume === 0;
+      if (volume > 0) video.dataset.lastVolume = String(volume);
+      updatePlayer(video);
+    }
+
+    function updatePlayer(video) {
+      const duration = getDuration(video);
+      const current = video.currentTime || 0;
+      const playing = !video.paused && !video.ended;
+      const muted = video.muted || video.volume === 0;
+      const card = video.closest(".video-card");
+      const cardPlay = card && card.querySelector(".control-play");
+      const cardStatus = card && card.querySelector(".status");
+      const cardSeek = card && card.querySelector(".seek");
+      const cardVolumeToggle = card && card.querySelector(".volume-toggle");
+      const cardVolumeSlider = card && card.querySelector(".volume-slider");
+      const cardCurrent = card && card.querySelector("[data-current]");
+      const cardTotal = card && card.querySelector("[data-total]");
+
+      if (cardPlay) {
+        cardPlay.setAttribute("aria-pressed", String(playing));
+        cardPlay.setAttribute("aria-label", playing ? "Jeda video" : "Putar video");
+      }
+      if (cardStatus) {
+        cardStatus.textContent = playing ? "Playing" : "Paused";
+        cardStatus.classList.toggle("is-playing", playing);
+      }
+      if (cardSeek) {
+        cardSeek.max = String(duration);
+        cardSeek.value = String(current);
+      }
+      if (cardCurrent) cardCurrent.textContent = formatTime(current);
+      if (cardTotal) cardTotal.textContent = formatTime(duration);
+      if (cardVolumeToggle) {
+        cardVolumeToggle.setAttribute("aria-pressed", String(muted));
+        cardVolumeToggle.setAttribute("aria-label", muted ? "Aktifkan suara video" : "Bisukan video");
+      }
+      if (cardVolumeSlider) cardVolumeSlider.value = String(video.volume);
+
+      if (video === activeVideo) {
+        modalPlay.setAttribute("aria-pressed", String(playing));
+        modalPlay.setAttribute("aria-label", playing ? "Jeda video" : "Putar video");
+        modalStatus.textContent = playing ? "Playing" : "Paused";
+        modalStatus.classList.toggle("is-playing", playing);
+        modalSeek.max = String(duration);
+        modalSeek.value = String(current);
+        modalVolumeToggle.setAttribute("aria-pressed", String(muted));
+        modalVolumeToggle.setAttribute("aria-label", muted ? "Aktifkan suara video" : "Bisukan video");
+        modalVolumeSlider.value = String(video.volume);
+        const modalCurrent = dialog.querySelector("[data-current]");
+        const modalTotal = dialog.querySelector("[data-total]");
+        modalCurrent.textContent = formatTime(current);
+        modalTotal.textContent = formatTime(duration);
+      }
+    }
+
+    document.querySelectorAll(".video-card").forEach((card, index) => {
+      const video = card.querySelector("video");
+      const fallbackDuration = index === 0 ? 78 : 50;
+      video.dataset.fallbackDuration = String(fallbackDuration);
+
+      const playButton = card.querySelector(".control-play");
+      const seek = card.querySelector(".seek");
+      const volumeToggle = card.querySelector(".volume-toggle");
+      const volumeSlider = card.querySelector(".volume-slider");
+      const expandButton = card.querySelector(".expand-button");
+      const errorMessage = card.querySelector(".error-message");
+      video.muted = false;
+      video.volume = 1;
+      video.dataset.lastVolume = "1";
+
+      playButton.addEventListener("click", () => togglePlayback(video));
+      volumeToggle.addEventListener("click", () => toggleMute(video));
+      volumeSlider.addEventListener("input", () => setVolume(video, volumeSlider.value));
+      video.addEventListener("click", () => togglePlayback(video));
+      video.addEventListener("play", () => updatePlayer(video));
+      video.addEventListener("pause", () => updatePlayer(video));
+      video.addEventListener("ended", () => updatePlayer(video));
+      video.addEventListener("timeupdate", () => updatePlayer(video));
+      video.addEventListener("volumechange", () => updatePlayer(video));
+      video.addEventListener("loadedmetadata", () => {
+        errorMessage.hidden = true;
+        updatePlayer(video);
+      });
+      video.addEventListener("error", () => { errorMessage.hidden = false; });
+      seek.addEventListener("input", () => {
+        video.currentTime = Number(seek.value);
+        updatePlayer(video);
+      });
+
+      window.setTimeout(() => {
+        if (video.networkState === video.NETWORK_NO_SOURCE && video.readyState === video.HAVE_NOTHING) {
+          errorMessage.hidden = false;
+        }
+      }, 1200);
+
+      expandButton.addEventListener("click", () => {
+        activeVideo = video;
+        activeCard = card;
+        activeErrorMessage = errorMessage;
+        lightboxStage.append(video);
+        lightboxStage.append(errorMessage);
+        modalTitle.textContent = card.querySelector("h2").textContent;
+        modalIndex.textContent = "0" + (index + 1);
+        dialog.showModal();
+        updatePlayer(video);
+        document.querySelector(".close-modal").focus();
+      });
+
+      updatePlayer(video);
+    });
+
+    modalPlay.addEventListener("click", () => {
+      if (activeVideo) togglePlayback(activeVideo);
+    });
+
+    modalSeek.addEventListener("input", () => {
+      if (!activeVideo) return;
+      activeVideo.currentTime = Number(modalSeek.value);
+      updatePlayer(activeVideo);
+    });
+
+    modalVolumeToggle.addEventListener("click", () => {
+      if (activeVideo) toggleMute(activeVideo);
+    });
+
+    modalVolumeSlider.addEventListener("input", () => {
+      if (activeVideo) setVolume(activeVideo, modalVolumeSlider.value);
+    });
+
+    function closeLightbox() {
+      if (!activeVideo || !activeCard) return;
+      const video = lightboxStage.querySelector("video");
+      if (!video) {
+        console.error("Video pemutar tidak ditemukan saat menutup tampilan.");
+        return;
+      }
+      const frame = activeCard.querySelector(".media-frame");
+      video.pause();
+      frame.prepend(activeErrorMessage);
+      frame.prepend(video);
+      updatePlayer(video);
+      if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen();
+      activeVideo = null;
+      activeCard = null;
+      activeErrorMessage = null;
+      dialog.close();
+    }
+
+    document.querySelector(".close-modal").addEventListener("click", closeLightbox);
+    dialog.addEventListener("cancel", (event) => {
+      event.preventDefault();
+      closeLightbox();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && dialog.open) {
+        event.preventDefault();
+        closeLightbox();
+      }
+    });
+    dialog.addEventListener("click", (event) => {
+      if (event.target === dialog) closeLightbox();
+    });
+
+    fullscreenButton.addEventListener("click", async () => {
+      try {
+        if (document.fullscreenElement) {
+          await document.exitFullscreen();
+        } else if (lightboxStage.requestFullscreen) {
+          await lightboxStage.requestFullscreen();
+        } else if (activeVideo && activeVideo.requestFullscreen) {
+          await activeVideo.requestFullscreen();
+        }
+      } catch (error) {
+        console.error("Mode layar penuh tidak dapat dibuka:", error);
+      }
+    });
+  </script>
+</body>
+</html>
